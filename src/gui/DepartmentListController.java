@@ -85,9 +85,9 @@ public class DepartmentListController implements Initializable {
 
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absolutName));
 			Pane pane = loader.load();
-			 
-			//funcao que carrega a janela do formulario pra prencher um novo departamento
-			Stage dialogStage= new Stage();
+
+			// funcao que carrega a janela do formulario pra prencher um novo departamento
+			Stage dialogStage = new Stage();
 			dialogStage.setTitle("Enter department data ");
 			dialogStage.setScene(new Scene(pane));
 			dialogStage.setResizable(false);
