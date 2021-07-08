@@ -1,6 +1,5 @@
 package model.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import model.dao.DaoFactory;
@@ -14,5 +13,13 @@ public class DepartmentService {
 	public List<Department> findAll() {
 		return dao.findAll();
 	}
-
+  //método que ensere ou atualiza um departamento no banco de dados
+	public void saveOrUpdate(Department obj) {
+		if(obj.getId()==null) {
+			dao.insert(obj);
+		}
+		else {
+			dao.update(obj);
+		}
+	}
 }
