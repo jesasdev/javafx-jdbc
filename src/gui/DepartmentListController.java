@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import gui.listeners.DatachangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
@@ -26,9 +27,9 @@ import javafx.stage.Stage;
 import model.entities.Department;
 import model.service.DepartmentService;
 
-public class DepartmentListController implements Initializable {
+public class DepartmentListController implements Initializable,DatachangeListener {
 
-	@FXML
+	
 	private DepartmentService service;
 	@FXML
 	private TableView<Department> tableViewDepartment;
@@ -48,7 +49,7 @@ public class DepartmentListController implements Initializable {
 	public void onBtNewAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
 		Department obj = new Department();
-		createDialogForm(obj,"/gui/DepartmentForm.fxml", parentStage);
+		createDialogForm(obj, "/gui/DepartmentForm.fxml", parentStage);
 	}
 
 	public void setDepartmentService(DepartmentService service) {
@@ -76,22 +77,27 @@ public class DepartmentListController implements Initializable {
 		if (service == null) {
 			throw new IllegalStateException("Service was null");
 		}
+		
 		List<Department> list = service.findAll();
 		obsList = FXCollections.observableArrayList(list);
 		tableViewDepartment.setItems(obsList);
 	}
 
-	private void createDialogForm(Department obj,String absolutName, Stage parentStage) {
+	private void createDialogForm(Department obj, String absolutName, Stage parentStage) {
 		try {
 
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absolutName));
 			Pane pane = loader.load();
-			
-			//injetando o departamento no controlador
+
+			// injetando o departamento no controlador
 			DepartmentFormController controller = loader.getController();
 			controller.setDepartment(obj);
-			controller.setdepartmentService(new DepartmentService());
-			controller.updatFormData();
+			controller.setDepartmentService(new DepartmentService());
+			//inscrevendo para receber o evento
+			controller.subscribeDataChangeListener(this);
+			controller.updateFormData();
+
+			
 
 			// funcao que carrega a janela do formulario pra prencher um novo departamento
 			Stage dialogStage = new Stage();
@@ -105,4 +111,10 @@ public class DepartmentListController implements Initializable {
 			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
 		}
 	}
+
+	@Override
+	public void onDataChanged() {
+		updateTableView();
+	}
+
 }

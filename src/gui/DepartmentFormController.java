@@ -1,11 +1,14 @@
 package gui;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import com.sun.nio.sctp.IllegalReceiveException;
 
 import db.DbException;
+import gui.listeners.DatachangeListener;
 import gui.util.Alerts;
 import gui.util.Constraints;
 import gui.util.Utils;
@@ -26,7 +29,8 @@ public class DepartmentFormController implements Initializable {
 	private Department entity;
 
 	private DepartmentService service;
-
+    
+	private List<DatachangeListener>dataChangeListeners = new ArrayList<>();
 	@FXML
 	private TextField txtId;
 
@@ -46,8 +50,13 @@ public class DepartmentFormController implements Initializable {
 		this.entity = entity;
 	}
 
-	public void setdepartmentService(DepartmentService service) {
+	public void setDepartmentService(DepartmentService service) {
 		this.service = service;
+	}
+	
+	//método que inscreve objetos na lista
+	public void subscribeDataChangeListener(DatachangeListener listener) {
+		dataChangeListeners.add(listener);
 	}
 
 	@FXML
@@ -60,11 +69,19 @@ public class DepartmentFormController implements Initializable {
 		}
 		try {
 			entity = getFormData();
+			notifyDataChangeListeners();
 			service.saveOrUpdate(entity);
 			Utils.currentStage(event).close();
 		} catch (DbException e) {
 			Alerts.showAlert("Error saing object", null, e.getMessage(), AlertType.ERROR);
 		}
+	}
+
+	private void notifyDataChangeListeners() {
+		for(DatachangeListener  listener : dataChangeListeners) {
+			listener.onDataChanged();
+		}
+		
 	}
 
 	// méthodo responsável em pegar os dados do formulario e instanciar um
@@ -93,7 +110,7 @@ public class DepartmentFormController implements Initializable {
 	}
 
 	// méthod que pega os dados do departamento e insere nas caixas de texto
-	public void updatFormData() {
+	public void updateFormData() {
 		if (entity == null) {
 			throw new IllegalStateException("Entity was null");
 		}
