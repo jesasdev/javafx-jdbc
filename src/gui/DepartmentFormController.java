@@ -26,8 +26,8 @@ import model.exceptions.ValidationException;
 import model.service.DepartmentService;
 
 public class DepartmentFormController implements Initializable {
+	
 	// dependencia para o departamento
-
 	private Department entity;
 
 	private DepartmentService service;

@@ -18,6 +18,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import model.service.DepartmentService;
 
+
 public class MainViewController implements Initializable {
 
 	// itens de menu
