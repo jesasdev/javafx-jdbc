@@ -39,10 +39,10 @@ public class DepartmentListController implements Initializable, DatachangeListen
 	private TableView<Department> tableViewDepartment;
 
 	@FXML
-	private TableColumn<Department, Integer> tableColunId;
+	private TableColumn<Department, Integer> tableColumnId;
 
 	@FXML
-	private TableColumn<Department, String> tableColunName;
+	private TableColumn<Department, String> tableColumnName;
 
 	@FXML
 	private TableColumn<Department, Department> tableColumnEDIT;
@@ -75,8 +75,8 @@ public class DepartmentListController implements Initializable, DatachangeListen
 
 	// inicia o comportamento das colunas
 	private void initializenodes() {
-		tableColunId.setCellValueFactory(new PropertyValueFactory<>("id"));
-		tableColunName.setCellValueFactory(new PropertyValueFactory<>("name"));
+		tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
+		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
 
 		Stage stage = (Stage) Main.getMainScene().getWindow();
 		// faz acompanhar a altura da janela
