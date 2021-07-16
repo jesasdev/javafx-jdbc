@@ -60,7 +60,8 @@ public class SellerListController implements Initializable, DatachangeListener {
 
 	@FXML
 	private Button BtNew;
-
+    
+	
 	private ObservableList<Seller> obsList;
 
 	@FXML
