@@ -30,6 +30,15 @@ public class Utils {
 			return null;
 		}
 	}
+	
+	//  converte o valor da caixinha em double
+	public static Double tryParseToDouble(String str) {
+		try {
+			return Double.parseDouble(str);
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
    
 	//formatacao de data
 	public static <T> void formatTableColumnDate(TableColumn<T, Date> tableColumn, String format) {
